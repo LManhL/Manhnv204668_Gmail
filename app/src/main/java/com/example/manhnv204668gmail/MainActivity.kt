@@ -3,8 +3,9 @@ package com.example.manhnv204668gmail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.widget.ListView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     private val items: ArrayList<GmailModel> = arrayListOf()
@@ -31,8 +32,10 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        findViewById<ListView>(R.id.list_view).adapter = mAdapter
-
+        findViewById<RecyclerView>(R.id.recycler_view).apply {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

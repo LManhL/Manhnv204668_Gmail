@@ -6,39 +6,28 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class Adapter(private val items: ArrayList<GmailModel>) : BaseAdapter() {
-    override fun getCount(): Int {
+class Adapter(private val items: ArrayList<GmailModel>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item, parent, false)
+
+        return ViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
         return items.size
     }
 
-    override fun getItem(position: Int): Any {
-        return items[position]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val gmail = items[position]
+        holder.bind(gmail)
     }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val itemView: View
-        val viewHolder: ViewHolder
-
-        if (convertView == null) {
-            itemView = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.item, parent, false)
-            viewHolder = ViewHolder(itemView)
-            itemView.tag = viewHolder
-        } else {
-            itemView = convertView
-            viewHolder = itemView.tag as ViewHolder
-        }
-        viewHolder.bind(items[position])
-        return itemView
-    }
-
-    class ViewHolder(private val itemView: View) {
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val imageAvatar: ImageView = itemView.findViewById(R.id.imgAvatar)
         val imageMark: ImageView = itemView.findViewById(R.id.imgMark)
         private val sender: TextView = itemView.findViewById(R.id.txtSender)
